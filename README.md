@@ -1,9 +1,9 @@
 # AlienTec-Recon-Tool
 # 👽 AlienTec Recon PRO
 
-[![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/YOUR_REPO?style=social)](https://github.com/YOUR_USERNAME/YOUR_REPO/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/YOUR_USERNAME/YOUR_REPO?style=social)](https://github.com/YOUR_USERNAME/YOUR_REPO/network/members)
-[![GitHub license](https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/network/members)
+[![GitHub license](https://img.shields.io/github/license/AlienTec1908/AlienTec-Recon-Tool)](LICENSE)
 ---
  
 <div align="center">
