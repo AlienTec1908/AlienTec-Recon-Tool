@@ -7,7 +7,7 @@
 ---
  
 <div align="center">
-  <img src="recontools.png" width="400" alt="ultimative buffer">
+  <img src="recontools.png" width="400" alt="ultimative Recon">
  
 </div>
 ---
