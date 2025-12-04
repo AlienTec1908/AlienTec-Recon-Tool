@@ -120,51 +120,100 @@ echo "Mode: $SCAN_MODE"
 echo "Target IP: $TARGET_IP"
 
 # ============================================================
-# MODULES
+# MODULE DEFINITIONS
 # ============================================================
 
 # ---- BASIC NMAP (only port numbers)
 run_basic_nmap() {
+  echo
+  echo "============================================================"
+  echo " NMAP SCAN (Basic Ports)"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] Running Basic Nmap (only port numbers)...${RESET}"
-  # Speichert nur Port-Nummern
-  nmap -p- --open -T4 "$TARGET_IP" \
-    | grep -Eo '^[0-9]+' > basic_nmap.txt
+  
+  # 🛠️ Korrigiert: Nutzt tee /dev/tty, um die Statusmeldungen im Terminal anzuzeigen
+  # 2>&1 leitet STDERR zu STDOUT, tee dupliziert alles an /dev/tty, 
+  # dann wird es gefiltert und in die Datei geschrieben.
+  nmap -p- --open -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -Eo '^[0-9]+' > basic_nmap.txt
 }
 
 # ---- FULL TCP NMAP (complete detail)
 run_full_tcp_scan() {
+  echo
+  echo "============================================================"
+  echo " NMAP SCAN (Full TCP & OS/Service)"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] Full TCP Scan...${RESET}"
-  nmap -p- -sV -sC -O -T4 "$TARGET_IP" -oN full_tcp.txt
+  
+  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+  nmap -p- -sV -sC -O -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > full_tcp.txt
 }
 
+# ---- UDP SCAN
 run_udp_scan() {
+  echo
+  echo "============================================================"
+  echo " UDP SCAN"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] UDP Scan...${RESET}"
-  nmap -sU --top-ports 200 "$TARGET_IP" -oN udp_scan.txt
+  
+  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+  nmap -sU --top-ports 200 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > udp_scan.txt
 }
 
-# 🛠️ ANGEPASST: Fügt 2>&1 und Filter hinzu
+# ---- HTTP HEADERS
 run_headers() {
+  echo
+  echo "============================================================"
+  echo " HTTP HEADER SCAN"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] Fetching HTTP headers (Port 80)...${RESET}"
-  # 2>&1 leitet STDERR zu STDOUT um, um sicherzustellen, dass curl-Output erfasst wird.
-  # grep filtert die Statuszeilen (*, >) und nur die Header (<).
-  curl -I "http://$TARGET_IP" 2>&1 | grep -E '^< |^>' | grep -v 'Host: ' > headers.txt
+  
+  # Korrigiert: 2>&1 leitet STDERR zu STDOUT um.
+  curl -I "http://$TARGET_IP" 2>&1 | tee /dev/tty | grep -E '^< |^>' | grep -v 'Host: ' > headers.txt
 }
 
-# 🛠️ ANGEPASST: Fügt 2>&1 hinzu
+# ---- COOKIES DUMP
 run_cookies() {
+  echo
+  echo "============================================================"
+  echo " COOKIE DUMP"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] Fetching cookies (Port 80)...${RESET}"
-  # 2>&1 hinzugefügt, um Header zuverlässiger zu erfassen.
-  curl -s -I "http://$TARGET_IP" 2>&1 | grep -i set-cookie > cookies.txt
+  
+  # Korrigiert: 2>&1 hinzugefügt, um Header zuverlässiger zu erfassen.
+  curl -s -I "http://$TARGET_IP" 2>&1 | tee /dev/tty | grep -i set-cookie > cookies.txt
 }
 
+# ---- GOBUSTER (Directory Bruteforce)
 run_gobuster() {
+  echo
+  echo "============================================================"
+  echo " DIRECTORY BRUTEFORCE (GOBUSTER)"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] Running Gobuster...${RESET}"
-  gobuster dir -u "http://$TARGET_IP" -w /usr/share/wordlists/dirb/common.txt -o gobuster.txt
+  
+  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+  gobuster dir -u "http://$TARGET_IP" -w /usr/share/wordlists/dirb/common.txt 2>&1 | tee /dev/tty | grep -v 'Starting gobuster' > gobuster.txt
 }
 
+# ---- NIKTO SCAN
 run_nikto() {
+  echo
+  echo "============================================================"
+  echo " NIKTO SCAN"
+  echo "============================================================"
+  echo
   echo -e "${YELLOW}[+] Running Nikto...${RESET}"
-  nikto -h "$TARGET_IP" -o nikto.txt
+  
+  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+  nikto -h "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Running Nikto' > nikto.txt
 }
 
 # ============================================================
