@@ -1,5 +1,46 @@
 # AlienTec-Recon-Tool
+# 👽 AlienTec Recon PRO
 
+[![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/YOUR_REPO?style=social)](https://github.com/YOUR_USERNAME/YOUR_REPO/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/YOUR_USERNAME/YOUR_REPO?style=social)](https://github.com/YOUR_USERNAME/YOUR_REPO/network/members)
+[![GitHub license](https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO)](LICENSE)
+
+
+
+---
+
+## ⚡️ Übersicht
+
+**AlienTec Recon PRO** ist ein **automatisches Bash-Skript** zur Durchführung von grundlegenden bis erweiterten **Aufklärungs- und Informationssammlungs-Scans** auf einem Zielsystem. Es nutzt leistungsstarke Tools wie **Nmap**, **Gobuster** und **Nikto**, um offene Ports, HTTP-Header, Cookies und mögliche Schwachstellen zu identifizieren.
+
+Das Tool ist modular aufgebaut und bietet flexible Optionen, um genau die Scans durchzuführen, die Sie benötigen.
+
+---
+
+## 🛠️ Module & Funktionen
+
+Das Skript kombiniert die Funktionen von Branchenstandards, um einen umfassenden Überblick über das Ziel zu erhalten.
+
+| Modul | Beschreibung | Tool | Option | Emoji |
+| :--- | :--- | :--- | :--- | :--- |
+| **Basis Nmap** | Schneller Dienst- und Versionsscan. Standardmäßig immer aktiv, sofern nicht übersprungen. | `nmap -T4 -sV` | `--skip-nmap` | 🔍 |
+| **Full TCP Scan** | Scannt alle **65535 TCP-Ports** für die umfassendste Portsicht. | `nmap -p-` | `--tcp` | 🌐 |
+| **UDP Scan** | Scannt die Top **200 UDP-Ports** auf offene Dienste. | `nmap -sU --top-ports 200` | `--udp` | 📨 |
+| **HTTP Headers** | Holt **HTTP-Header** der Ziel-Website (z.B. Servertyp, Richtlinien). | `curl -I` | `--headers` | 🛡️ |
+| **Cookies Dump** | Extrahiert **Set-Cookie**-Header für Session- oder Tracking-Informationen. | `curl -s -I` | `--cookies` | 🍪 |
+| **Directory Busting** | Führt **Brute-Force-Suche** nach gängigen Verzeichnissen und Dateien durch. | `gobuster dir` | `--gobuster` | 📁 |
+| **Vulnerability Check** | Führt einen Webserver-Scan auf bekannte Schwachstellen und Konfigurationsfehler durch. | `nikto -h` | `--nikto` | 🚨 |
+
+---
+
+## 🚀 Installation & Voraussetzungen
+
+Um AlienTec Recon PRO auszuführen, benötigen Sie folgende Tools auf Ihrem System (idealerweise Kali Linux, Parrot OS oder eine andere Pentesting-Distribution):
+
+```bash
+# Überprüfen Sie, ob Nmap, Gobuster und Nikto installiert sind
+sudo apt update
+sudo apt install nmap gobuster nikto -y
 Ein hochmodulares, professionelles Reconnaissance‑Toolkit für Pentester, Red Teamer und Security Researcher.
 
 ## 🚀 Features
