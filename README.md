@@ -1,5 +1,4 @@
 # AlienTec-Recon-Tool
-# AlienTec Recon PRO
 
 Ein hochmodulares, professionelles Reconnaissance‑Toolkit für Pentester, Red Teamer und Security Researcher.
 
