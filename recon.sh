@@ -132,7 +132,7 @@ run_basic_nmap() {
   echo
   echo -e "${YELLOW}[+] Running Basic Nmap (only port numbers)...${RESET}"
   
-  # 🛠️ Korrigiert: Nutzt tee /dev/tty, um die Statusmeldungen im Terminal anzuzeigen
+
   # 2>&1 leitet STDERR zu STDOUT, tee dupliziert alles an /dev/tty, 
   # dann wird es gefiltert und in die Datei geschrieben.
   nmap -p- --open -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -Eo '^[0-9]+' > basic_nmap.txt
@@ -147,7 +147,7 @@ run_full_tcp_scan() {
   echo
   echo -e "${YELLOW}[+] Full TCP Scan...${RESET}"
   
-  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+
   nmap -p- -sV -sC -O -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > full_tcp.txt
 }
 
@@ -160,7 +160,7 @@ run_udp_scan() {
   echo
   echo -e "${YELLOW}[+] UDP Scan...${RESET}"
   
-  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+ 
   nmap -sU --top-ports 200 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > udp_scan.txt
 }
 
@@ -199,7 +199,7 @@ run_gobuster() {
   echo
   echo -e "${YELLOW}[+] Running Gobuster...${RESET}"
   
-  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+ 
   gobuster dir -u "http://$TARGET_IP" -w /usr/share/wordlists/dirb/common.txt 2>&1 | tee /dev/tty | grep -v 'Starting gobuster' > gobuster.txt
 }
 
@@ -212,7 +212,7 @@ run_nikto() {
   echo
   echo -e "${YELLOW}[+] Running Nikto...${RESET}"
   
-  # 🛠️ Korrigiert: Nutzt tee /dev/tty für vollständige Ausgabe in Konsole und Datei
+
   nikto -h "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Running Nikto' > nikto.txt
 }
 
@@ -220,7 +220,7 @@ run_nikto() {
 # EXECUTION FLOW
 # ============================================================
 
-# BASIC always (unless skipped)
+# BASIC always
 if [[ "$SKIP_NMAP" != true ]]; then
   run_basic_nmap
 fi
