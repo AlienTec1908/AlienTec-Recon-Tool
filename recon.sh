@@ -10,19 +10,23 @@ RESET="\e[0m"
 # ===== Banner =====
 clear
 echo -e "${BLUE}
- █████╗ ██╗     ██╗███████╗███╗   ██╗████████╗███████╗ ██████╗ 
-██╔══██╗██║     ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝██╔═══██╗
-███████║██║     ██║█████╗  ██╔██╗ ██║   ██║   █████╗  ██║      
-██╔══██║██║     ██║██╔══╝  ██║╚██╗██║   ██║   ██╔══╝  ██║   ██║
+ █████╗ ██╗     ██╗███████╗███╗  ██╗████████╗███████╗ ██████╗ 
+██╔══██╗██║     ██║██╔════╝████╗ ██║╚══██╔══╝██╔════╝██╔═══██╗
+███████║██║     ██║█████╗  ██╔██╗██║   ██║   █████╗  ██║     
+██╔══██║██║     ██║██╔══╝  ██║╚██╗██║   ██║   ██╔══╝  ██║  ██║
 ██║  ██║███████╗██║███████╗██║ ╚████║   ██║   ███████╗╚██████╔╝
 ╚═╝  ╚═╝╚══════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ 
                       AlienTec Recon PRO${RESET}
 "
 
-# ===== Variables =====
+# ============================================================
+# VARIABLES
+# ============================================================
+
 TARGET_IP=""
 TARGET_DOMAIN=""
 SCAN_MODE="external"
+IPV6_MODE=false
 
 RUN_TCP=false
 RUN_UDP=false
@@ -38,17 +42,48 @@ SKIP_CURL=false
 
 RUN_ALL=false
 
-# ===== Usage =====
+# ============================================================
+# USAGE
+# ============================================================
+
 usage() {
-  echo "Usage: ./recon.sh --ip <target> [options]"
+  echo "AlienTec Recon PRO – Usage"
+  echo "-----------------------------------------"
+  echo "./recon.sh --ip <target> [options]"
+  echo ""
+  echo "Required:"
+  echo "  --ip <addr>             IPv4 Adresse"
+  echo ""
+  echo "Optional:"
+  echo "  --domain <domain>       Ziel-Domain"
+  echo "  --ipv6                  IPv6 Scan aktivieren"
+  echo "  --mode internal|external  Pentest Mode"
+  echo "  --all                   Alle Module"
+  echo "  --tcp                   Full TCP Scan"
+  echo "  --udp                   UDP Scan"
+  echo "  --headers               HTTP Header Scan"
+  echo "  --cookies               Cookie Dump"
+  echo "  --gobuster              Directory Bruteforce"
+  echo "  --nikto                 Nikto Scan"
+  echo "  --skip-nmap             Nmap überspringen"
+  echo "  --skip-gobuster         Gobuster überspringen"
+  echo "  --skip-nikto            Nikto überspringen"
+  echo "  --skip-curl             HTTP Module überspringen"
+  echo "  --help                  Diese Hilfe"
+  echo ""
   exit 1
 }
 
-# ===== Parse Args =====
+# ============================================================
+# ARGUMENT PARSER
+# ============================================================
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --help) usage ;;
     --ip) TARGET_IP="$2"; shift ;;
     --domain) TARGET_DOMAIN="$2"; shift ;;
+    --ipv6) IPV6_MODE=true ;;
     --mode) SCAN_MODE="$2"; shift ;;
     --tcp) RUN_TCP=true ;;
     --udp) RUN_UDP=true ;;
@@ -56,16 +91,16 @@ while [[ $# -gt 0 ]]; do
     --cookies) RUN_COOKIES=true ;;
     --gobuster) RUN_GOBUSTER=true ;;
     --nikto) RUN_NIKTO=true ;;
-    --all) RUN_ALL=true ;;
-    --skip-gobuster) SKIP_GOBUSTER=true ;;
     --skip-nmap) SKIP_NMAP=true ;;
+    --skip-gobuster) SKIP_GOBUSTER=true ;;
     --skip-nikto) SKIP_NIKTO=true ;;
     --skip-curl) SKIP_CURL=true ;;
+    --all) RUN_ALL=true ;;
   esac
   shift
 done
 
-# ===== Map ALL → all flags =====
+# Map ALL → all flags
 if [[ "$RUN_ALL" == true ]]; then
   RUN_TCP=true
   RUN_UDP=true
@@ -79,24 +114,27 @@ fi
 
 LOGDIR="logs"
 mkdir -p "$LOGDIR"
-LOGFILE="$LOGDIR/$(date +'%Y-%m-%d_%H-%M-%S').log"
 
 echo -e "[+] Starting AlienTec Recon PRO..."
 echo "Mode: $SCAN_MODE"
 echo "Target IP: $TARGET_IP"
 
-# ====================================================
-# MODULE FUNCTIONS
-# ====================================================
+# ============================================================
+# MODULES
+# ============================================================
 
+# ---- BASIC NMAP (only port numbers)
 run_basic_nmap() {
-  echo -e "${YELLOW}[+] Running basic Nmap scan...${RESET}"
-  nmap -T4 -sV "$TARGET_IP" -oN basic_nmap.txt
+  echo -e "${YELLOW}[+] Running Basic Nmap (only port numbers)...${RESET}"
+  # Speichert nur Port-Nummern
+  nmap -p- --open -T4 "$TARGET_IP" \
+    | grep -Eo '^[0-9]+' > basic_nmap.txt
 }
 
+# ---- FULL TCP NMAP (complete detail)
 run_full_tcp_scan() {
-  echo -e "${YELLOW}[+] Full TCP ports...${RESET}"
-  nmap -p- -T4 "$TARGET_IP" -oN full_tcp.txt
+  echo -e "${YELLOW}[+] Full TCP Scan...${RESET}"
+  nmap -p- -sV -sC -O -T4 "$TARGET_IP" -oN full_tcp.txt
 }
 
 run_udp_scan() {
@@ -104,14 +142,19 @@ run_udp_scan() {
   nmap -sU --top-ports 200 "$TARGET_IP" -oN udp_scan.txt
 }
 
+# 🛠️ ANGEPASST: Fügt 2>&1 und Filter hinzu
 run_headers() {
-  echo -e "${YELLOW}[+] Fetching HTTP headers...${RESET}"
-  curl -I "http://$TARGET_IP" > headers.txt 2>/dev/null
+  echo -e "${YELLOW}[+] Fetching HTTP headers (Port 80)...${RESET}"
+  # 2>&1 leitet STDERR zu STDOUT um, um sicherzustellen, dass curl-Output erfasst wird.
+  # grep filtert die Statuszeilen (*, >) und nur die Header (<).
+  curl -I "http://$TARGET_IP" 2>&1 | grep -E '^< |^>' | grep -v 'Host: ' > headers.txt
 }
 
+# 🛠️ ANGEPASST: Fügt 2>&1 hinzu
 run_cookies() {
-  echo -e "${YELLOW}[+] Dumping cookies...${RESET}"
-  curl -s -I "http://$TARGET_IP" | grep -i set-cookie > cookies.txt
+  echo -e "${YELLOW}[+] Fetching cookies (Port 80)...${RESET}"
+  # 2>&1 hinzugefügt, um Header zuverlässiger zu erfassen.
+  curl -s -I "http://$TARGET_IP" 2>&1 | grep -i set-cookie > cookies.txt
 }
 
 run_gobuster() {
@@ -120,56 +163,44 @@ run_gobuster() {
 }
 
 run_nikto() {
-  echo -e "${YELLOW}[+] Running Nikto scan...${RESET}"
+  echo -e "${YELLOW}[+] Running Nikto...${RESET}"
   nikto -h "$TARGET_IP" -o nikto.txt
 }
 
-# ====================================================
+# ============================================================
 # EXECUTION FLOW
-# ====================================================
+# ============================================================
 
-# Always run basic Nmap unless skipped
+# BASIC always (unless skipped)
 if [[ "$SKIP_NMAP" != true ]]; then
   run_basic_nmap
 fi
 
-# TCP
 [[ "$RUN_TCP" == true ]] && [[ "$SKIP_NMAP" != true ]] && run_full_tcp_scan
-
-# UDP
 [[ "$RUN_UDP" == true ]] && [[ "$SKIP_NMAP" != true ]] && run_udp_scan
 
-# Headers
+# HTTP CURL MODULES
 [[ "$RUN_HEADERS" == true ]] && [[ "$SKIP_CURL" != true ]] && run_headers
-
-# Cookies
 [[ "$RUN_COOKIES" == true ]] && [[ "$SKIP_CURL" != true ]] && run_cookies
 
-# Gobuster
 [[ "$RUN_GOBUSTER" == true ]] && [[ "$SKIP_GOBUSTER" != true ]] && run_gobuster
-
-# Nikto
 [[ "$RUN_NIKTO" == true ]] && [[ "$SKIP_NIKTO" != true ]] && run_nikto
 
-# ====================================================
+# ============================================================
 # SUMMARY
-# ====================================================
-echo ""
-echo "============================================================"
-echo " AlienTec Recon PRO – Scan Summary"
-echo "============================================================"
-echo ""
-echo "Date: $(date +'%Y-%m-%d')"
-echo "Time: $(date +'%H:%M:%S')"
+# ============================================================
 
-echo "Nmap Basic Scan:       $(wc -l < basic_nmap.txt 2>/dev/null) lines"
-echo "Nmap Full TCP:         $(wc -l < full_tcp.txt 2>/dev/null) lines"
-echo "Nmap UDP:              $(wc -l < udp_scan.txt 2>/dev/null) lines"
-echo "Gobuster:              $(wc -l < gobuster.txt 2>/dev/null) lines"
-echo "HTTP Headers:          $(wc -l < headers.txt 2>/dev/null) lines"
-echo "Cookie Dump:           $(wc -l < cookies.txt 2>/dev/null) lines"
-echo "Nikto Scan:            $(wc -l < nikto.txt 2>/dev/null) lines"
+echo ""
+echo "=============================================="
+echo " AlienTec Recon PRO – Summary"
+echo "=============================================="
+echo "Basic Scan Ports: $(wc -l < basic_nmap.txt 2>/dev/null)"
+echo "Full TCP Scan:    $(wc -l < full_tcp.txt 2>/dev/null)"
+echo "UDP Scan:         $(wc -l < udp_scan.txt 2>/dev/null)"
+echo "Headers:          $(wc -l < headers.txt 2>/dev/null)"
+echo "Cookies:          $(wc -l < cookies.txt 2>/dev/null)"
+echo "Gobuster:         $(wc -l < gobuster.txt 2>/dev/null)"
+echo "Nikto:            $(wc -l < nikto.txt 2>/dev/null)"
 echo ""
 echo "✔ AlienTec Recon PRO completed."
-echo "Logfile saved at: $LOGFILE"
-echo "============================================================"
+echo "=============================================="
