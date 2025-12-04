@@ -4,12 +4,12 @@
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
-BLUE="\e[34m"
+MAGENTA="\e[35m" # Geändert von BLUE zu MAGENTA
 RESET="\e[0m"
 
 # ===== Banner =====
 clear
-echo -e "${BLUE}
+echo -e "${MAGENTA}
  █████╗ ██╗     ██╗███████╗███╗  ██╗████████╗███████╗ ██████╗ 
 ██╔══██╗██║     ██║██╔════╝████╗ ██║╚══██╔══╝██╔════╝██╔═══██╗
 ███████║██║     ██║█████╗  ██╔██╗██║   ██║   █████╗  ██║     
@@ -18,6 +18,32 @@ echo -e "${BLUE}
 ╚═╝  ╚═╝╚══════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ 
                       AlienTec Recon PRO${RESET}
 "
+
+# ===== TOOLS USED =====
+echo "-----------------------------------------"
+echo -e "${YELLOW}TOOLS USED:${RESET} Nmap, Gobuster, Nikto, Curl"
+echo "-----------------------------------------"
+
+# ============================================================
+# DEPENDENCY CHECK
+# ============================================================
+
+check_dependencies() {
+    local tools=("nmap" "gobuster" "nikto" "curl")
+    local missing=false
+    echo -e "${YELLOW}[+] Checking dependencies...${RESET}"
+    for tool in "${tools[@]}"; do
+        if ! command -v "$tool" &> /dev/null; then
+            echo -e "${RED}[!] Error: The tool '$tool' is not installed.${RESET}"
+            missing=true
+        fi
+    done
+    if [[ "$missing" == true ]]; then
+        echo -e "${RED}[!] Please install the missing tools and try again.${RESET}"
+        exit 1
+    fi
+    echo -e "${GREEN}[+] All dependencies are installed.${RESET}"
+}
 
 # ============================================================
 # VARIABLES
@@ -115,6 +141,8 @@ fi
 LOGDIR="logs"
 mkdir -p "$LOGDIR"
 
+check_dependencies
+
 echo -e "[+] Starting AlienTec Recon PRO..."
 echo "Mode: $SCAN_MODE"
 echo "Target IP: $TARGET_IP"
@@ -132,9 +160,6 @@ run_basic_nmap() {
   echo
   echo -e "${YELLOW}[+] Running Basic Nmap (only port numbers)...${RESET}"
   
-
-  # 2>&1 leitet STDERR zu STDOUT, tee dupliziert alles an /dev/tty, 
-  # dann wird es gefiltert und in die Datei geschrieben.
   nmap -p- --open -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -Eo '^[0-9]+' > basic_nmap.txt
 }
 
@@ -147,7 +172,6 @@ run_full_tcp_scan() {
   echo
   echo -e "${YELLOW}[+] Full TCP Scan...${RESET}"
   
-
   nmap -p- -sV -sC -O -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > full_tcp.txt
 }
 
@@ -160,7 +184,6 @@ run_udp_scan() {
   echo
   echo -e "${YELLOW}[+] UDP Scan...${RESET}"
   
- 
   nmap -sU --top-ports 200 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > udp_scan.txt
 }
 
@@ -173,7 +196,6 @@ run_headers() {
   echo
   echo -e "${YELLOW}[+] Fetching HTTP headers (Port 80)...${RESET}"
   
-  # Korrigiert: 2>&1 leitet STDERR zu STDOUT um.
   curl -I "http://$TARGET_IP" 2>&1 | tee /dev/tty | grep -E '^< |^>' | grep -v 'Host: ' > headers.txt
 }
 
@@ -186,7 +208,6 @@ run_cookies() {
   echo
   echo -e "${YELLOW}[+] Fetching cookies (Port 80)...${RESET}"
   
-  # Korrigiert: 2>&1 hinzugefügt, um Header zuverlässiger zu erfassen.
   curl -s -I "http://$TARGET_IP" 2>&1 | tee /dev/tty | grep -i set-cookie > cookies.txt
 }
 
@@ -199,7 +220,6 @@ run_gobuster() {
   echo
   echo -e "${YELLOW}[+] Running Gobuster...${RESET}"
   
- 
   gobuster dir -u "http://$TARGET_IP" -w /usr/share/wordlists/dirb/common.txt 2>&1 | tee /dev/tty | grep -v 'Starting gobuster' > gobuster.txt
 }
 
@@ -212,7 +232,6 @@ run_nikto() {
   echo
   echo -e "${YELLOW}[+] Running Nikto...${RESET}"
   
-
   nikto -h "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Running Nikto' > nikto.txt
 }
 
@@ -220,7 +239,7 @@ run_nikto() {
 # EXECUTION FLOW
 # ============================================================
 
-# BASIC always
+# BASIC always (unless skipped)
 if [[ "$SKIP_NMAP" != true ]]; then
   run_basic_nmap
 fi
