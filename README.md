@@ -1,154 +1,150 @@
-    
+# AlienTec-Recon-Tool
 # 👽 AlienTec Recon PRO
 
 [![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/network/members)
 [![GitHub license](https://img.shields.io/github/license/AlienTec1908/AlienTec-Recon-Tool)](LICENSE)
-
+---
+ 
 <div align="center">
-  
-  <!-- TIPP: Ersetze das Bild durch ein GIF, das dein Skript in Aktion zeigt! -->
-  <img src="recontools.png" width="500" alt="AlienTec Recon PRO Banner">
+  <img src="recontools.png" width="400" alt="ultimative Recon">
  
 </div>
 
----
 
-AlienTec Recon PRO ist dein Schweizer Taschenmesser für die Netzwerkaufklärung. Es bündelt die Power von **Nmap**, **Gobuster** und **Nikto** in einem einzigen, einfach zu bedienenden Bash-Skript. Starte umfassende Scans mit nur einem Befehl und erhalte alle Ergebnisse sauber und automatisch in Log-Dateien gespeichert.
+## ⚡️ Übersicht
 
----
+**AlienTec Recon PRO** ist ein **automatisches Bash-Skript** zur Durchführung von grundlegenden bis erweiterten **Aufklärungs- und Informationssammlungs-Scans** auf einem Zielsystem. Es nutzt leistungsstarke Tools wie **Nmap**, **Gobuster** und **Nikto**, um offene Ports, HTTP-Header, Cookies und mögliche Schwachstellen zu identifizieren.
 
-## 🚀 Quick Start (Installation in 30 Sekunden)
-
-Du benötigst `nmap`, `gobuster` und `nikto`. Das Skript prüft automatisch, ob sie vorhanden sind.
-
-```bash
-# 1. Klone das Repository
-git clone https://github.com/AlienTec1908/AlienTec-Recon-Tool.git
-
-# 2. Wechsle in das Verzeichnis
-cd AlienTec-Recon-Tool
-
-# 3. Mach das Skript ausführbar
-chmod +x recon.sh
-
-# 4. Starte deinen ersten Scan!
-./recon.sh --ip 10.0.0.5 --all```
+Das Tool ist modular aufgebaut und bietet flexible Optionen, um genau die Scans durchzuführen, die Sie benötigen.
 
 ---
 
-## 🛠️ Features & Module
+## 🛠️ Module & Funktionen
 
-Das Skript ist modular aufgebaut. Wähle genau die Scans, die du brauchst.
+Das Skript kombiniert die Funktionen von Branchenstandards, um einen umfassenden Überblick über das Ziel zu erhalten.
 
 | Modul | Beschreibung | Tool | Option | Emoji |
 | :--- | :--- | :--- | :--- | :--- |
-| **Basis Nmap** | Schneller Scan auf offene Ports, Dienste und Versionen. | `nmap` | (Standard) | 🔍 |
-| **Full TCP Scan** | Scannt **alle 65535 TCP-Ports** für eine lückenlose Analyse. | `nmap` | `--tcp` | 🌐 |
-| **UDP Scan** | Scannt die Top **200 UDP-Ports** auf offene Dienste. | `nmap` | `--udp` | 📨 |
-| **HTTP Headers** | Holt **HTTP-Header** (z.B. Servertyp, Security Policies). | `curl` | `--headers` | 🛡️ |
-| **Cookies Dump** | Extrahiert gesetzte **Cookies** für Session-Informationen. | `curl` | `--cookies` | 🍪 |
-| **Directory Busting** | Sucht per Brute-Force nach versteckten Verzeichnissen und Dateien. | `gobuster` | `--gobuster` | 📁 |
-| **Vulnerability Check** | Scannt den Webserver auf bekannte Schwachstellen (z.B. veraltete Software). | `nikto` | `--nikto` | 🚨 |
+| **Basis Nmap** | Schneller Dienst- und Versionsscan. Standardmäßig immer aktiv, sofern nicht übersprungen. | `nmap -T4 -sV` | `--skip-nmap` | 🔍 |
+| **Full TCP Scan** | Scannt alle **65535 TCP-Ports** für die umfassendste Portsicht. | `nmap -p-` | `--tcp` | 🌐 |
+| **UDP Scan** | Scannt die Top **200 UDP-Ports** auf offene Dienste. | `nmap -sU --top-ports 200` | `--udp` | 📨 |
+| **HTTP Headers** | Holt **HTTP-Header** der Ziel-Website (z.B. Servertyp, Richtlinien). | `curl -I` | `--headers` | 🛡️ |
+| **Cookies Dump** | Extrahiert **Set-Cookie**-Header für Session- oder Tracking-Informationen. | `curl -s -I` | `--cookies` | 🍪 |
+| **Directory Busting** | Führt **Brute-Force-Suche** nach gängigen Verzeichnissen und Dateien durch. | `gobuster dir` | `--gobuster` | 📁 |
+| **Vulnerability Check** | Führt einen Webserver-Scan auf bekannte Schwachstellen und Konfigurationsfehler durch. | `nikto -h` | `--nikto` | 🚨 |
 
 ---
 
-## 🧠 Usage & Parameter
+## 🚀 Installation & Voraussetzungen
 
-Die grundlegende Syntax lautet:
+Um AlienTec Recon PRO auszuführen, benötigen Sie folgende Tools auf Ihrem System (idealerweise Kali Linux, Parrot OS oder eine andere Pentesting-Distribution):
 
 ```bash
-./recon.sh --ip <Ziel-IP> [Optionen]
+# Überprüfen Sie, ob Nmap, Gobuster und Nikto installiert sind
+sudo apt update
+sudo apt install nmap gobuster nikto -y
+Ein hochmodulares, professionelles Reconnaissance‑Toolkit für Pentester, Red Teamer und Security Researcher.
 
-  
+## 🚀 Features
+- Vollständig modular (jeder Scan einzeln oder kombiniert)
+- IPv4 & IPv6 Unterstützung
+- Nmap Security Scans (Web, Vuln, Full TCP/UDP)
+- Gobuster Directory Bruteforcing
+- HTTP Header & Cookie Scans
+- Automatische Log‑Ordner & Zeitstempel
+- Fehlertolerant & farbige CLI‑Ausgabe
+- Interner/Externer Modus wählbar
+- Banner + Parameterhilfe direkt im CLI
 
-🏁 Alle Parameter
-Flag	Beschreibung	Erforderlich?
---ip <addr>	Ziel‑IPv4 Adresse	Ja
---domain <domain>	Ziel‑Domain (für einige Scans nützlich)	Nein
---ipv6	Aktiviert den IPv6 Scan-Modus	Nein
---all	Führt alle verfügbaren Module aus	Nein
---tcp	Führt den vollständigen TCP-Portscan durch	Nein
---udp	Führt den UDP-Scan durch	Nein
---headers	Führt den HTTP-Header-Scan durch	Nein
---cookies	Führt den Cookie-Dump durch	Nein
---gobuster	Startet den Directory Brute-Force	Nein
---nikto	Startet den Nikto Web-Schwachstellenscan	Nein
---skip-nmap	Überspringt alle Nmap-basierten Scans	Nein
---skip-gobuster	Überspringt den Gobuster-Scan	Nein
---skip-nikto	Überspringt den Nikto-Scan	Nein
---skip-curl	Überspringt alle Curl-basierten Scans (Headers, Cookies)	Nein
---mode <mode>	internal oder external (zukünftige Funktion)	Nein
-🔥 Beispiel-Kommandos
-Minimaler Scan
+---
 
-Ein schneller Basis-Scan auf offene Ports und Dienste.
- Bash
+## 📦 Installation
+```bash
+chmod +x recon.sh
+```
 
-    
+Optionaler Auto‑Installer (wird später ins Skript eingebaut):
+- prüft ob notwendige Tools existieren
+- fragt **immer** vor Installation
+
+---
+
+## 🧠 Usage
+```bash
+./recon.sh --ip 192.168.1.50 --domain example.com --all
+```
+
+### 🏁 Parameter
+| Flag           | Beschreibung                                  |
+| -------------- | ---------------------------------------------- |
+| --ip           | Ziel‑IPv4 Adresse (required)                   |
+| --domain       | Ziel‑Domain (optional)                         |
+| --ipv6         | IPv6 Scan aktivieren                           |
+| --tcp          | Full TCP Scan                                  |
+| --udp          | UDP Scan                                       |
+| --headers      | HTTP Header Scan                               |
+| --cookies      | Cookie Dump                                     |
+| --gobuster     | Directory Bruteforce                           |
+| --nikto        | Webserver‑Scan (optional Modul)                |
+| --mode internal| Interner Pentest                               |
+| --mode external| Externer Pentest                               |
+| --skip-*       | Beliebige Module ausschließen                  |
+| --all          | Alle Module ausführen                          |
+
+---
+
+## 🔥 Beispielkommandos
+
+### Minimal
+```bash
 ./recon.sh --ip 10.0.0.5
+```
 
-  
+### Externer Web‑Pentest
+```bash
+./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster
+```
 
-Umfassender Web-Pentest
+### Interner Host‑Security‑Scan
+```bash
+./recon.sh --ip 192.168.2.199 --tcp --udp --all
+```
 
-Alles, was man für einen externen Webserver-Check braucht.
- Bash
+---
 
-    
-./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster --nikto
+## 📁 Logs
+Alle Scans werden automatisch gespeichert in:
 
-  
+```
+logs/YYYY-MM-DD_HH-MM-SS/
+```
 
-Interner All-in-One Scan
+---
 
-Ein tiefer Scan eines Hosts im internen Netzwerk.
-code Bash
+## 🏁 Abschluss‑Report (wird am Ende angezeigt)
+Beispiel:
 
-    
-./recon.sh --ip 192.168.2.199 --all
+```
+[+] Nmap Web Scan Findings: 4 ✔
+[+] Nmap Vuln Scan Findings: 2 ✔
+[+] TCP Ports Open: 7 ✔
+[+] UDP Ports Open: 3 ✔
+[+] Gobuster Hits: 12 ✔
+[+] Header Issues: 5 ✔
+[+] Cookie Issues: 1 ✔
 
-  
+✔ AlienTec Recon PRO completed at 2025‑12‑04 23:51
+Logfile saved in logs/2025-12-04_23-51/
+```
 
-📁 Output & Logging
+---
 
-Alle Scan-Ergebnisse werden automatisch in einem eigenen Ordner mit Zeitstempel gespeichert, damit du nichts verlierst.
+## 🐉 Projektstatus
+Aktive Weiterentwicklung · Pro‑Version · Community‑Friendly
 
-Speicherort:
- 
+---
 
-    
-logs/
-└── basic_nmap.txt
-└── full_tcp.txt
-└── gobuster.txt
-└── ...
+## 📜 License
+MIT License
 
-  
-
-Am Ende jedes Laufs erhältst du eine saubere Zusammenfassung direkt im Terminal:
-
-Beispiel-Report:
-code Bash
-
-    
-==============================================
- AlienTec Recon PRO – Summary
-==============================================
-Basic Scan Ports: 7
-Full TCP Scan:    7
-UDP Scan:         3
-Headers:          10
-Cookies:          1
-Gobuster:         25
-Nikto:            42
-
-✔ AlienTec Recon PRO completed.
-==============================================
-
-  
-
-📜 License
-
-Dieses Projekt ist unter der MIT License lizenziert. Siehe die LICENSE-Datei für Details.
-code Code
