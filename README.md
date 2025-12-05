@@ -1,6 +1,6 @@
 # AlienTec 👽 Recon-Tool
 # 
-# Gefällt dir AlienTec Recon? Gib dem Projekt einen Stern ⭐, um die Entwicklung zu unterstützen!
+<h2>Gefällt dir AlienTec Recon? Gib dem Projekt einen Stern ⭐, um die Entwicklung zu unterstützen!</h2>h2>
 
 
 [![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
