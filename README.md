@@ -148,3 +148,4 @@ Aktive Weiterentwicklung · Pro‑Version · Community‑Friendly
 ## 📜 License
 MIT License
 
+Gefällt dir AlienTec Recon? Gib dem Projekt einen Stern ⭐, um die Entwicklung zu unterstützen!
