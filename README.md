@@ -1,5 +1,5 @@
-# AlienTec-Recon-Tool
-# 👽 AlienTec Recon PRO
+# AlienTec 👽 Recon-Tool
+# 
 
 [![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/network/members)
