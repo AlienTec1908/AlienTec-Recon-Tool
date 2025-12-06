@@ -1,5 +1,3 @@
-┌──(root㉿kali)-[~]
-└─# cat u.sh            
 #!/bin/bash
 
 mgn="\033[35m"
@@ -16,7 +14,7 @@ echo -e "${mgn}
 ██╔══██║██║     ██║██╔══╝  ██║╚██╗██║   ██║   ██╔══╝  ██║  ██║
 ██║  ██║███████╗██║███████╗██║ ╚████║   ██║   ███████╗╚██████╔╝
 ╚═╝  ╚═╝╚══════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ 
-                      AlienTec Recon PRO${rst}
+                      AlienTec Recon Tool${rst}
 "
 
 echo "-----------------------------------------"
@@ -59,7 +57,7 @@ all_modules=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --help)
-      echo "AlienTec Recon PRO – Detaillierte Hilfe"
+      echo "AlienTec Recon Tool - Detaillierte Hilfe"
       echo "-----------------------------------------"
       echo "Benutzung: ./recon.sh --ip <ziel-ip> [module] [skips]"
       echo ""
@@ -186,7 +184,7 @@ for port in $web_ports; do
 done
 
 echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
-echo -e "${grn}:::::::::::::::::::::: Findings from Scans :::::::::::::::::::::::${rst}"
+echo -e "${grn}:::::::::::::::::::::: Scan - findings :::::::::::::::::::::::${rst}"
 echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
 echo -e "Offene Ports:\t\t$(wc -l < "$findingsdir/nmap_basic_ports.txt" 2>/dev/null | tr -d ' ')"
 echo -e "TCP Scan Details:\t$(wc -l < "$findingsdir/nmap_full_tcp.txt" 2>/dev/null | tr -d ' ')"
