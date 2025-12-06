@@ -1,274 +1,206 @@
+┌──(root㉿kali)-[~]
+└─# cat u.sh            
 #!/bin/bash
 
-# ===== Colors =====
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-MAGENTA="\e[35m" # Main Banner Color from BLUE to MAGENTA
-RESET="\e[0m"
+mgn="\033[35m"
+ylw="\033[33m"
+rd="\033[31m"
+grn="\033[32m"
+rst="\033[0m"
 
-# ===== Banner =====
 clear
-echo -e "${MAGENTA}
+echo -e "${mgn}
  █████╗ ██╗     ██╗███████╗███╗  ██╗████████╗███████╗ ██████╗ 
 ██╔══██╗██║     ██║██╔════╝████╗ ██║╚══██╔══╝██╔════╝██╔═══██╗
 ███████║██║     ██║█████╗  ██╔██╗██║   ██║   █████╗  ██║     
 ██╔══██║██║     ██║██╔══╝  ██║╚██╗██║   ██║   ██╔══╝  ██║  ██║
 ██║  ██║███████╗██║███████╗██║ ╚████║   ██║   ███████╗╚██████╔╝
 ╚═╝  ╚═╝╚══════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ 
-                      AlienTec Recon PRO${RESET}
+                      AlienTec Recon PRO${rst}
 "
 
-# ===== TOOLS USED =====
 echo "-----------------------------------------"
-echo -e "${YELLOW}TOOLS USED:${RESET} Nmap, Gobuster, Nikto, Curl"
+echo -e "${ylw}tools used:${rst} Nmap, Gobuster, Nikto, Curl"
 echo "-----------------------------------------"
 
-# ============================================================
-# DEPENDENCY CHECK
-# ============================================================
-
-check_dependencies() {
-    local tools=("nmap" "gobuster" "nikto" "curl")
-    local missing=false
-    echo -e "${YELLOW}[+] Checking dependencies...${RESET}"
-    for tool in "${tools[@]}"; do
-        if ! command -v "$tool" &> /dev/null; then
-            echo -e "${RED}[!] Error: The tool '$tool' is not installed.${RESET}"
-            missing=true
-        fi
-    done
-    if [[ "$missing" == true ]]; then
-        echo -e "${RED}[!] Please install the missing tools and try again.${RESET}"
-        exit 1
+tools_needed=("nmap" "gobuster" "nikto" "curl")
+missing_tool=false
+echo -e "${ylw}[+] Überprüfe, ob alle Tools installiert sind...${rst}"
+for tool in "${tools_needed[@]}"; do
+    if ! command -v "$tool" &> /dev/null; then
+        echo -e "${rd}[!] Fehler: Das Tool '$tool' ist nicht installiert.${rst}"
+        missing_tool=true
     fi
-    echo -e "${GREEN}[+] All dependencies are installed.${RESET}"
-}
+done
+if [[ "$missing_tool" == true ]]; then
+    echo -e "${rd}[!] Bitte installiere die fehlenden Tools und versuche es erneut.${rst}"
+    exit 1
+fi
+echo -e "${grn}[+] Alle Abhängigkeiten sind erfüllt.${rst}\n"
+printf "${ylw}Usage: ./recon.sh --ip <target> [options]\n\n${rst}"
 
-# ============================================================
-# VARIABLES
-# ============================================================
+victim_ip=""
+domain=""
+mode="external"
+specific_scan_requested=false
 
-TARGET_IP=""
-TARGET_DOMAIN=""
-SCAN_MODE="external"
-IPV6_MODE=false
-
-RUN_TCP=false
-RUN_UDP=false
-RUN_HEADERS=false
-RUN_COOKIES=false
-RUN_GOBUSTER=false
-RUN_NIKTO=false
-
-SKIP_NMAP=false
-SKIP_GOBUSTER=false
-SKIP_NIKTO=false
-SKIP_CURL=false
-
-RUN_ALL=false
-
-# ============================================================
-# USAGE
-# ============================================================
-
-usage() {
-  echo "AlienTec Recon PRO – Usage"
-  echo "-----------------------------------------"
-  echo "./recon.sh --ip <target> [options]"
-  echo ""
-echo "Required:"
-  echo "  --ip <addr>             IPv4 Address"
-  echo ""
-  echo "Optional:"
-  echo "  --domain <domain>       Target Domain"
-  echo "  --ipv6                  Enable IPv6 scan"
-  echo "  --mode internal|external  Pentest mode"
-  echo "  --all                   Run all modules"
-  echo "  --tcp                   Full TCP scan"
-  echo "  --udp                   UDP scan"
-  echo "  --headers               HTTP Header scan"
-  echo "  --cookies               Cookie dump"
-  echo "  --gobuster              Directory bruteforce"
-  echo "  --nikto                 Nikto scan"
-  echo "  --skip-nmap             Skip Nmap"
-  echo "  --skip-gobuster         Skip Gobuster"
-  echo "  --skip-nikto            Skip Nikto"
-  echo "  --skip-curl             Skip HTTP modules"
-  echo "  --help                  Show help"
-  echo ""
-  exit 1
-}
-
-# ============================================================
-# ARGUMENT PARSER
-# ============================================================
+do_tcp=false
+do_udp=false
+grab_headers=false
+grab_cookies=false
+bust_dirs=false
+do_nikto=false
+no_nmap=false
+no_buster=false
+no_nikto=false
+no_curl=false
+all_modules=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --help) usage ;;
-    --ip) TARGET_IP="$2"; shift ;;
-    --domain) TARGET_DOMAIN="$2"; shift ;;
-    --ipv6) IPV6_MODE=true ;;
-    --mode) SCAN_MODE="$2"; shift ;;
-    --tcp) RUN_TCP=true ;;
-    --udp) RUN_UDP=true ;;
-    --headers) RUN_HEADERS=true ;;
-    --cookies) RUN_COOKIES=true ;;
-    --gobuster) RUN_GOBUSTER=true ;;
-    --nikto) RUN_NIKTO=true ;;
-    --skip-nmap) SKIP_NMAP=true ;;
-    --skip-gobuster) SKIP_GOBUSTER=true ;;
-    --skip-nikto) SKIP_NIKTO=true ;;
-    --skip-curl) SKIP_CURL=true ;;
-    --all) RUN_ALL=true ;;
+    --help)
+      echo "AlienTec Recon PRO – Detaillierte Hilfe"
+      echo "-----------------------------------------"
+      echo "Benutzung: ./recon.sh --ip <ziel-ip> [module] [skips]"
+      echo ""
+      echo "Hauptparameter:"
+      echo "  --ip <addr>       Zwingend erforderlich. Die IP-Adresse des Ziels."
+      echo "  --domain <name>   Optional. Der Hostname des Ziels."
+      echo ""
+      echo "Scan-Module (Wenn keines angegeben ist, laufen Standard-Web-Scans):"
+      echo "  --all             Führt ALLE verfügbaren Scan-Module aus."
+      echo "  --tcp             Führt einen tiefen Nmap TCP-Scan durch."
+      echo "  --udp             Führt einen Nmap UDP-Scan durch."
+      echo "  --headers         Ruft die HTTP-Header ab."
+      echo "  --cookies         Extrahiert Cookies."
+      echo "  --gobuster        Startet einen Gobuster Directory-Scan."
+      echo "  --nikto           Startet einen Nikto Web-Schwachstellen-Scan."
+      echo ""
+      echo "Skip-Optionen:"
+      echo "  --skip-nmap       Überspringt alle Nmap-basierten Scans."
+      echo "  --skip-curl       Überspringt die HTTP-Scans (Header, Cookies)."
+      echo "  --skip-gobuster   Überspringt den Gobuster-Scan."
+      echo "  --skip-nikto      Überspringt den Nikto-Scan."
+      exit 0
+      ;;
+    --ip) victim_ip="$2"; shift ;;
+    --domain) domain="$2"; shift ;;
+    --mode) mode="$2"; shift ;;
+    --tcp) do_tcp=true; specific_scan_requested=true ;;
+    --udp) do_udp=true; specific_scan_requested=true ;;
+    --headers) grab_headers=true; specific_scan_requested=true ;;
+    --cookies) grab_cookies=true; specific_scan_requested=true ;;
+    --gobuster) bust_dirs=true; specific_scan_requested=true ;;
+    --nikto) do_nikto=true; specific_scan_requested=true ;;
+    --skip-nmap) no_nmap=true ;;
+    --skip-gobuster) no_buster=true ;;
+    --skip-nikto) no_nikto=true ;;
+    --skip-curl) no_curl=true ;;
+    --all) all_modules=true ;;
   esac
   shift
 done
 
-# Map ALL → all flags
-if [[ "$RUN_ALL" == true ]]; then
-  RUN_TCP=true
-  RUN_UDP=true
-  RUN_HEADERS=true
-  RUN_COOKIES=true
-  RUN_GOBUSTER=true
-  RUN_NIKTO=true
+if [[ "$all_modules" == true ]]; then
+  do_tcp=true
+  do_udp=true
+  grab_headers=true
+  grab_cookies=true
+  bust_dirs=true
+  do_nikto=true
+elif [[ "$specific_scan_requested" == false ]]; then
+  grab_headers=true
+  grab_cookies=true
+  bust_dirs=true
 fi
 
-[[ -z "$TARGET_IP" ]] && usage
-
-LOGDIR="logs"
-mkdir -p "$LOGDIR"
-
-check_dependencies
-
-echo -e "[+] Starting AlienTec Recon PRO..."
-echo "Mode: $SCAN_MODE"
-echo "Target IP: $TARGET_IP"
-
-# ============================================================
-# MODULE DEFINITIONS
-# ============================================================
-
-# ---- BASIC NMAP (only port numbers)
-run_basic_nmap() {
-  echo
-  echo "============================================================"
-  echo " NMAP SCAN (Basic Ports)"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] Running Basic Nmap (only port numbers)...${RESET}"
-  
-  nmap -p- --open -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -Eo '^[0-9]+' > basic_nmap.txt
-}
-
-# ---- FULL TCP NMAP (complete detail)
-run_full_tcp_scan() {
-  echo
-  echo "============================================================"
-  echo " NMAP SCAN (Full TCP & OS/Service)"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] Full TCP Scan...${RESET}"
-  
-  nmap -p- -sV -sC -O -T4 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > full_tcp.txt
-}
-
-# ---- UDP SCAN
-run_udp_scan() {
-  echo
-  echo "============================================================"
-  echo " UDP SCAN"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] UDP Scan...${RESET}"
-  
-  nmap -sU --top-ports 200 "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Starting Nmap' > udp_scan.txt
-}
-
-# ---- HTTP HEADERS
-run_headers() {
-  echo
-  echo "============================================================"
-  echo " HTTP HEADER SCAN"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] Fetching HTTP headers (Port 80)...${RESET}"
-  
-  curl -I "http://$TARGET_IP" 2>&1 | tee /dev/tty | grep -E '^< |^>' | grep -v 'Host: ' > headers.txt
-}
-
-# ---- COOKIES DUMP
-run_cookies() {
-  echo
-  echo "============================================================"
-  echo " COOKIE DUMP"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] Fetching cookies (Port 80)...${RESET}"
-  
-  curl -s -I "http://$TARGET_IP" 2>&1 | tee /dev/tty | grep -i set-cookie > cookies.txt
-}
-
-# ---- GOBUSTER (Directory Bruteforce)
-run_gobuster() {
-  echo
-  echo "============================================================"
-  echo " DIRECTORY BRUTEFORCE (GOBUSTER)"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] Running Gobuster...${RESET}"
-  
-  gobuster dir -u "http://$TARGET_IP" -w /usr/share/wordlists/dirb/common.txt 2>&1 | tee /dev/tty | grep -v 'Starting gobuster' > gobuster.txt
-}
-
-# ---- NIKTO SCAN
-run_nikto() {
-  echo
-  echo "============================================================"
-  echo " NIKTO SCAN"
-  echo "============================================================"
-  echo
-  echo -e "${YELLOW}[+] Running Nikto...${RESET}"
-  
-  nikto -h "$TARGET_IP" 2>&1 | tee /dev/tty | grep -v 'Running Nikto' > nikto.txt
-}
-
-# ============================================================
-# EXECUTION FLOW
-# ============================================================
-
-# BASIC always (unless skipped)
-if [[ "$SKIP_NMAP" != true ]]; then
-  run_basic_nmap
+if [[ -z "$victim_ip" ]]; then
+    echo "Fehler: --ip <addr> ist erforderlich. Benutze --help für mehr Infos."
+    exit 1
 fi
 
-[[ "$RUN_TCP" == true ]] && [[ "$SKIP_NMAP" != true ]] && run_full_tcp_scan
-[[ "$RUN_UDP" == true ]] && [[ "$SKIP_NMAP" != true ]] && run_udp_scan
+findingsdir="Findings_from_Scans_$victim_ip"
+mkdir -p "$findingsdir"
 
-# HTTP CURL MODULES
-[[ "$RUN_HEADERS" == true ]] && [[ "$SKIP_CURL" != true ]] && run_headers
-[[ "$RUN_COOKIES" == true ]] && [[ "$SKIP_CURL" != true ]] && run_cookies
+if [[ "$no_nmap" != true ]]; then
+    echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+    echo -e "${mgn}:::::::::::::::::::::::::::: Nmap - Basis Scan :::::::::::::::::::::::::::${rst}"
+    echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+    nmap -p- --open -T4 "$victim_ip" 2>&1 | tee "$findingsdir/nmap_basic_ports.txt"
+    echo -e "\n"
+fi
 
-[[ "$RUN_GOBUSTER" == true ]] && [[ "$SKIP_GOBUSTER" != true ]] && run_gobuster
-[[ "$RUN_NIKTO" == true ]] && [[ "$SKIP_NIKTO" != true ]] && run_nikto
+if [[ "$do_tcp" == true && "$no_nmap" != true ]]; then
+    echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+    echo -e "${mgn}:::::::::::::::::::::::: Nmap - Voll-TCP-Scan ::::::::::::::::::::::::${rst}"
+    echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+    nmap -p- -sV -sC -O -T4 "$victim_ip" 2>&1 | tee "$findingsdir/nmap_full_tcp.txt"
+    echo -e "\n"
+fi
 
-# ============================================================
-# SUMMARY
-# ============================================================
+if [[ "$do_udp" == true && "$no_nmap" != true ]]; then
+    echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+    echo -e "${mgn}::::::::::::::::::::::::::: Nmap - UDP-Scan ::::::::::::::::::::::::::::${rst}"
+    echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+    nmap -sU --top-ports 200 "$victim_ip" 2>&1 | tee "$findingsdir/nmap_udp.txt"
+    echo -e "\n"
+fi
 
-echo ""
-echo "=============================================="
-echo " AlienTec Recon PRO – Summary"
-echo "=============================================="
-echo "Basic Scan Ports: $(wc -l < basic_nmap.txt 2>/dev/null)"
-echo "Full TCP Scan:    $(wc -l < full_tcp.txt 2>/dev/null)"
-echo "UDP Scan:         $(wc -l < udp_scan.txt 2>/dev/null)"
-echo "Headers:          $(wc -l < headers.txt 2>/dev/null)"
-echo "Cookies:          $(wc -l < cookies.txt 2>/dev/null)"
-echo "Gobuster:         $(wc -l < gobuster.txt 2>/dev/null)"
-echo "Nikto:            $(wc -l < nikto.txt 2>/dev/null)"
-echo ""
-echo "✔ AlienTec Recon PRO completed."
-echo "=============================================="
+echo -e "${ylw}[+] Suche nach Web-Ports für weitere Scans...${rst}"
+web_ports=$(grep '^[0-9]' "$findingsdir/nmap_basic_ports.txt" 2>/dev/null | grep -E 'http|www' | awk -F'/' '{print $1}')
+
+for port in $web_ports; do
+    echo -e "${grn}[+] Web-Port gefunden: $port. Starte Web-Scans...${rst}\n"
+
+    if [[ "$grab_headers" == true && "$no_curl" != true ]]; then
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+        echo -e "${mgn}::::::::::::: Curl - HTTP Header (Port $port) :::::::::::::${rst}"
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+        curl -s -I "http://$victim_ip:$port" 2>&1 | tee -a "$findingsdir/http_headers.txt"
+        echo -e "\n"
+    fi
+
+    if [[ "$grab_cookies" == true && "$no_curl" != true ]]; then
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+        echo -e "${mgn}::::::::::::::: Curl - Cookies (Port $port) :::::::::::::::${rst}"
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+        curl -s -I "http://$victim_ip:$port" 2>&1 | grep -i 'set-cookie' | tee -a "$findingsdir/http_cookies.txt"
+        echo -e "\n"
+    fi
+
+    if [[ "$bust_dirs" == true && "$no_buster" != true ]]; then
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+        echo -e "${mgn}::::::::::::::: Gobuster - Scan (Port $port) :::::::::::::::${rst}"
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+        gobuster dir -u "http://$victim_ip:$port" -w /usr/share/wordlists/dirb/common.txt 2>&1 | tee -a "$findingsdir/gobuster_p$port.txt"
+        echo -e "\n"
+    fi
+
+    if [[ "$do_nikto" == true && "$no_nikto" != true ]]; then
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+        echo -e "${mgn}::::::::::::::: Nikto - Scan (Port $port) :::::::::::::::::${rst}"
+        echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+        nikto -h "http://$victim_ip:$port" 2>&1 | tee -a "$findingsdir/nikto_p$port.txt"
+        echo -e "\n"
+    fi
+done
+
+echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+echo -e "${grn}:::::::::::::::::::::: Findings from Scans :::::::::::::::::::::::${rst}"
+echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+echo -e "Offene Ports:\t\t$(wc -l < "$findingsdir/nmap_basic_ports.txt" 2>/dev/null | tr -d ' ')"
+echo -e "TCP Scan Details:\t$(wc -l < "$findingsdir/nmap_full_tcp.txt" 2>/dev/null | tr -d ' ')"
+echo -e "UDP Scan Details:\t$(wc -l < "$findingsdir/nmap_udp.txt" 2>/dev/null | tr -d ' ')"
+echo -e "HTTP Header:\t\t$(wc -l < "$findingsdir/http_headers.txt" 2>/dev/null | tr -d ' ')"
+echo -e "Cookies:\t\t$(wc -l < "$findingsdir/http_cookies.txt" 2>/dev/null | tr -d ' ')"
+
+for port in $web_ports; do
+    echo -e "Gobuster (Port $port):\t$(wc -l < "$findingsdir/gobuster_p$port.txt" 2>/dev/null | tr -d ' ')"
+    echo -e "Nikto (Port $port):\t$(wc -l < "$findingsdir/nikto_p$port.txt" 2>/dev/null | tr -d ' ')"
+done
+echo -e "\n"
+
+echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
+echo -e "${grn}::::::::::::::::::::::::::::::: Fertig :::::::::::::::::::::::::::::::::::${rst}"
+echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
+echo "Alle Ausgaben im Ordner: $findingsdir"
