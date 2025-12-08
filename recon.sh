@@ -23,18 +23,18 @@ echo "-----------------------------------------"
 
 tools_needed=("nmap" "gobuster" "nikto" "curl")
 missing_tool=false
-echo -e "${ylw}[+] Überprüfe, ob alle Tools installiert sind...${rst}"
+echo -e "${ylw}[+] Check if all tools are installed...${rst}"
 for tool in "${tools_needed[@]}"; do
     if ! command -v "$tool" &> /dev/null; then
-        echo -e "${rd}[!] Fehler: Das Tool '$tool' ist nicht installiert.${rst}"
+        echo -e "${rd}[!] Error: The tool '$tool' is not installed.${rst}"
         missing_tool=true
     fi
 done
 if [[ "$missing_tool" == true ]]; then
-    echo -e "${rd}[!] Bitte installiere die fehlenden Tools und versuche es erneut.${rst}"
+    echo -e "${rd}[!] Please install the missing tools and try again.${rst}"
     exit 1
 fi
-echo -e "${grn}[+] Alle Abhängigkeiten sind erfüllt.${rst}\n"
+echo -e "${grn}[+] All dependencies are met.${rst}\n"
 printf "${ylw}Usage: ./recon.sh --ip <target> [options]\n\n${rst}"
 
 victim_ip=""
@@ -57,28 +57,28 @@ all_modules=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --help)
-      echo "AlienTec Recon Tool - Detaillierte Hilfe"
+      echo "AlienTec Recon Tool - Detailed help"
       echo "-----------------------------------------"
-      echo "Benutzung: ./recon.sh --ip <ziel-ip> [module] [skips]"
+echo "Usage: ./recon.sh --ip <target-ip> [modules] [skips]"
       echo ""
-      echo "Hauptparameter:"
-      echo "  --ip <addr>       Zwingend erforderlich. Die IP-Adresse des Ziels."
-      echo "  --domain <name>   Optional. Der Hostname des Ziels."
+      echo "Main parameters:"
+      echo "  --ip <addr>       Required. The IP address of the target."
+      echo "  --domain <name>   Optional. The hostname of the target."
       echo ""
-      echo "Scan-Module (Wenn keines angegeben ist, laufen Standard-Web-Scans):"
-      echo "  --all             Führt ALLE verfügbaren Scan-Module aus."
-      echo "  --tcp             Führt einen tiefen Nmap TCP-Scan durch."
-      echo "  --udp             Führt einen Nmap UDP-Scan durch."
-      echo "  --headers         Ruft die HTTP-Header ab."
-      echo "  --cookies         Extrahiert Cookies."
-      echo "  --gobuster        Startet einen Gobuster Directory-Scan."
-      echo "  --nikto           Startet einen Nikto Web-Schwachstellen-Scan."
+      echo "Scan modules (If none are specified, default web scans will run):"
+      echo "  --all             Runs ALL available scan modules."
+      echo "  --tcp             Performs a deep Nmap TCP scan."
+      echo "  --udp             Performs an Nmap UDP scan."
+      echo "  --headers         Retrieves the HTTP headers."
+      echo "  --cookies         Extracts cookies."
+      echo "  --gobuster        Launches a Gobuster directory scan."
+      echo "  --nikto           Launches a Nikto web vulnerability scan."
       echo ""
-      echo "Skip-Optionen:"
-      echo "  --skip-nmap       Überspringt alle Nmap-basierten Scans."
-      echo "  --skip-curl       Überspringt die HTTP-Scans (Header, Cookies)."
-      echo "  --skip-gobuster   Überspringt den Gobuster-Scan."
-      echo "  --skip-nikto      Überspringt den Nikto-Scan."
+      echo "Skip options:"
+      echo "  --skip-nmap       Skips all Nmap-based scans."
+      echo "  --skip-curl       Skips the HTTP scans (headers, cookies)."
+      echo "  --skip-gobuster   Skips the Gobuster scan."
+      echo "  --skip-nikto      Skips the Nikto scan."
       exit 0
       ;;
     --ip) victim_ip="$2"; shift ;;
@@ -113,7 +113,7 @@ elif [[ "$specific_scan_requested" == false ]]; then
 fi
 
 if [[ -z "$victim_ip" ]]; then
-    echo "Fehler: --ip <addr> ist erforderlich. Benutze --help für mehr Infos."
+    echo "Error: --ip <addr> is required. Use --help for more info."
     exit 1
 fi
 
@@ -144,11 +144,11 @@ if [[ "$do_udp" == true && "$no_nmap" != true ]]; then
     echo -e "\n"
 fi
 
-echo -e "${ylw}[+] Suche nach Web-Ports für weitere Scans...${rst}"
+echo -e "${ylw}[+] Searching for web ports for further scans...${rst}
 web_ports=$(grep '^[0-9]' "$findingsdir/nmap_basic_ports.txt" 2>/dev/null | grep -E 'http|www' | awk -F'/' '{print $1}')
 
 for port in $web_ports; do
-    echo -e "${grn}[+] Web-Port gefunden: $port. Starte Web-Scans...${rst}\n"
+    echo -e "${grn}[+] Web port found: $port. Starting web scans...${rst}\n
 
     if [[ "$grab_headers" == true && "$no_curl" != true ]]; then
         echo -e "${mgn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
@@ -199,6 +199,6 @@ done
 echo -e "\n"
 
 echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}"
-echo -e "${grn}::::::::::::::::::::::::::::::: Fertig :::::::::::::::::::::::::::::::::::${rst}"
+echo -e "${grn}:::::::::::::::::::::::::::::::: Done ::::::::::::::::::::::::::::::::::${rst}"
 echo -e "${grn}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${rst}\n"
-echo "Alle Ausgaben im Ordner: $findingsdir"
+echo "All output in the directory: $findingsdir"
