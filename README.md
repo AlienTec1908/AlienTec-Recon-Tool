@@ -49,6 +49,7 @@ sudo apt install nmap gobuster nikto -y
 A highly modular, professional reconnaissance toolkit for pentesters, red teamers, and security researchers.
 
 ## 🚀 Features
+
 - Fully modular (run each scan individually or combined)
 - IPv4 & IPv6 support
 - Nmap Security Scans (Web, Vuln, Full TCP/UDP)
