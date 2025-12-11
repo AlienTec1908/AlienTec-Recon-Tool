@@ -44,15 +44,7 @@ To run the AlienTec Recon Tool, you need the following tools on your system (ide
 # Check if Nmap, Gobuster, and Nikto are installed
 sudo apt update
 sudo apt install nmap gobuster nikto -y
-
-
-
-code Code
-
-    
----
-### TEIL 2 von 3
-```markdown
+ 
 A highly modular, professional reconnaissance toolkit for pentesters, red teamers, and security researchers.
 
 ## 🚀 Features
