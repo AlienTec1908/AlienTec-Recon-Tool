@@ -1,7 +1,6 @@
 # AlienTec 👽 Recon-Tool
-# 
-<h3>Gefällt dir AlienTec Recon? Gib dem Projekt einen Stern ⭐, um die Entwicklung zu unterstützen!</h3>
 
+<h3>Do you like AlienTec Recon? Give the project a star ⭐ to support its development!</h3>
 
 [![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/network/members)
@@ -9,125 +8,128 @@
 ---
  
 <div align="center">
-  <img src="recontools.png" width="400" alt="ultimative Recon">
+  <img src="recontools.png" width="400" alt="ultimate Recon">
  
 </div>
 
+## ⚡️ Overview
 
-## ⚡️ Übersicht
+**AlienTec Recon Tool** is an **automated Bash script** for performing basic to advanced **reconnaissance and information gathering scans** on a target system. It leverages powerful tools like **Nmap**, **Gobuster**, and **Nikto** to identify open ports, HTTP headers, cookies, and potential vulnerabilities.
 
-**AlienTec Recon Tool** ist ein **automatisches Bash-Skript** zur Durchführung von grundlegenden bis erweiterten **Aufklärungs- und Informationssammlungs-Scans** auf einem Zielsystem. Es nutzt leistungsstarke Tools wie **Nmap**, **Gobuster** und **Nikto**, um offene Ports, HTTP-Header, Cookies und mögliche Schwachstellen zu identifizieren.
-
-Das Tool ist modular aufgebaut und bietet flexible Optionen, um genau die Scans durchzuführen, die Sie benötigen.
+The tool is designed to be modular, offering flexible options to run exactly the scans you need.
 
 ---
 
-## 🛠️ Module & Funktionen
+## 🛠️ Modules & Features
 
-Das Skript kombiniert die Funktionen von Branchenstandards, um einen umfassenden Überblick über das Ziel zu erhalten.
+The script combines the capabilities of industry-standard tools to provide a comprehensive overview of the target.
 
-| Modul | Beschreibung | Tool | Option | Emoji |
+| Module | Description | Tool | Option | Emoji |
 | :--- | :--- | :--- | :--- | :--- |
-| **Basis Nmap** | Schneller Dienst- und Versionsscan. Standardmäßig immer aktiv, sofern nicht übersprungen. | `nmap -T4 -sV` | `--skip-nmap` | 🔍 |
-| **Full TCP Scan** | Scannt alle **65535 TCP-Ports** für die umfassendste Portsicht. | `nmap -p-` | `--tcp` | 🌐 |
-| **UDP Scan** | Scannt die Top **200 UDP-Ports** auf offene Dienste. | `nmap -sU --top-ports 200` | `--udp` | 📨 |
-| **HTTP Headers** | Holt **HTTP-Header** der Ziel-Website (z.B. Servertyp, Richtlinien). | `curl -I` | `--headers` | 🛡️ |
-| **Cookies Dump** | Extrahiert **Set-Cookie**-Header für Session- oder Tracking-Informationen. | `curl -s -I` | `--cookies` | 🍪 |
-| **Directory Busting** | Führt **Brute-Force-Suche** nach gängigen Verzeichnissen und Dateien durch. | `gobuster dir` | `--gobuster` | 📁 |
-| **Vulnerability Check** | Führt einen Webserver-Scan auf bekannte Schwachstellen und Konfigurationsfehler durch. | `nikto -h` | `--nikto` | 🚨 |
+| **Basic Nmap** | Fast service and version scan. Always active by default unless skipped. | `nmap -T4 -sV` | `--skip-nmap` | 🔍 |
+| **Full TCP Scan** | Scans all **65535 TCP ports** for the most comprehensive port overview. | `nmap -p-` | `--tcp` | 🌐 |
+| **UDP Scan** | Scans the top **200 UDP ports** for open services. | `nmap -sU --top-ports 200` | `--udp` | 📨 |
+| **HTTP Headers** | Fetches **HTTP headers** from the target website (e.g., server type, policies). | `curl -I` | `--headers` | 🛡️ |
+| **Cookies Dump** | Extracts **Set-Cookie** headers for session or tracking information. | `curl -s -I` | `--cookies` | 🍪 |
+| **Directory Busting** | Performs a **brute-force search** for common directories and files. | `gobuster dir` | `--gobuster` | 📁 |
+| **Vulnerability Check** | Runs a web server scan for known vulnerabilities and misconfigurations. | `nikto -h` | `--nikto` | 🚨 |
 
 ---
 
-## 🚀 Installation & Voraussetzungen
+## 🚀 Prerequisites
 
-Um AlienTec Recon Tool auszuführen, benötigen Sie folgende Tools auf Ihrem System (idealerweise Kali Linux, Parrot OS oder eine andere Pentesting-Distribution):
+To run the AlienTec Recon Tool, you need the following tools on your system (ideally Kali Linux, Parrot OS, or another pentesting distribution):
 
 ```bash
-# Überprüfen Sie, ob Nmap, Gobuster und Nikto installiert sind
+# Check if Nmap, Gobuster, and Nikto are installed
 sudo apt update
 sudo apt install nmap gobuster nikto -y
-Ein hochmodulares, professionelles Reconnaissance‑Toolkit für Pentester, Red Teamer und Security Researcher.
+
+
+
+code Code
+
+    
+---
+### TEIL 2 von 3
+```markdown
+A highly modular, professional reconnaissance toolkit for pentesters, red teamers, and security researchers.
 
 ## 🚀 Features
-- Vollständig modular (jeder Scan einzeln oder kombiniert)
-- IPv4 & IPv6 Unterstützung
+- Fully modular (run each scan individually or combined)
+- IPv4 & IPv6 support
 - Nmap Security Scans (Web, Vuln, Full TCP/UDP)
 - Gobuster Directory Bruteforcing
 - HTTP Header & Cookie Scans
-- Automatische Log‑Ordner & Zeitstempel
-- Fehlertolerant & farbige CLI‑Ausgabe
-- Interner/Externer Modus wählbar
-- Banner + Parameterhilfe direkt im CLI
+- Automatic log folders & timestamps
+- Fault-tolerant & colored CLI output
+- Selectable Internal/External mode
+- Banner + parameter help directly in the CLI
 
 ---
 
 ## 📦 Installation
 ```bash
 chmod +x recon.sh
-```
 
-Optionaler Auto‑Installer (wird später ins Skript eingebaut):
-- prüft ob notwendige Tools existieren
-- fragt **immer** vor Installation
+  
 
----
+Optional Auto-Installer (to be integrated into the script later):
 
-## 🧠 Usage
-```bash
+    checks if necessary tools exist
+
+    always asks before installation
+
+🧠 Usage
+  
 ./recon.sh --ip 192.168.1.50 --domain example.com --all
-```
 
-### 🏁 Parameter
-| Flag           | Beschreibung                                  |
-| -------------- | ---------------------------------------------- |
-| --ip           | Ziel‑IPv4 Adresse (required)                   |
-| --domain       | Ziel‑Domain (optional)                         |
-| --ipv6         | IPv6 Scan aktivieren                           |
-| --tcp          | Full TCP Scan                                  |
-| --udp          | UDP Scan                                       |
-| --headers      | HTTP Header Scan                               |
-| --cookies      | Cookie Dump                                     |
-| --gobuster     | Directory Bruteforce                           |
-| --nikto        | Webserver‑Scan (optional Modul)                |
-| --mode internal| Interner Pentest                               |
-| --mode external| Externer Pentest                               |
-| --skip-*       | Beliebige Module ausschließen                  |
-| --all          | Alle Module ausführen                          |
+  
 
----
-
-## 🔥 Beispielkommandos
-
-### Minimal
-```bash
+🏁 Parameters
+Flag	Description
+--ip	Target IPv4 address (required)
+--domain	Target domain (optional)
+--ipv6	Enable IPv6 scan
+--tcp	Full TCP Scan
+--udp	UDP Scan
+--headers	HTTP Header Scan
+--cookies	Cookie Dump
+--gobuster	Directory Bruteforce
+--nikto	Web server scan (optional module)
+--mode internal	Internal Pentest
+--mode external	External Pentest
+--skip-*	Exclude any module
+--all	Execute all modules
+🔥 Example Commands
+Minimal
+ 
 ./recon.sh --ip 10.0.0.5
-```
 
-### Externer Web‑Pentest
-```bash
+  
+
+External Web Pentest
+    
 ./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster
-```
 
-### Interner Host‑Security‑Scan
-```bash
+  
+
+Internal Host Security Scan
+
 ./recon.sh --ip 192.168.2.199 --tcp --udp --all
-```
 
----
-
+ 
 ## 📁 Logs
-Alle Scans werden automatisch gespeichert in:
+All scans are automatically saved in:
 
-```
-logs/YYYY-MM-DD_HH-MM-SS/
-```
+```logs/YYYY-MM-DD_HH-MM-SS/
 
----
+  
 
-## 🏁 Abschluss‑Report (wird am Ende angezeigt)
-Beispiel:
+🏁 Final Report (displayed at the end)
 
-```
+Example:
+   
 [+] Nmap Web Scan Findings: 4 ✔
 [+] Nmap Vuln Scan Findings: 2 ✔
 [+] TCP Ports Open: 7 ✔
@@ -138,24 +140,20 @@ Beispiel:
 
 ✔ AlienTec Recon Tool completed at 2025‑12‑04 23:51
 Logfile saved in logs/2025-12-04_23-51/
-```
 
----
----
-### ❤️ Deine Unterstützung macht den Unterschied
+  
 
-Schön, dass du das AlienTec Recon-Tool nutzt! Dieses Projekt ist aus Leidenschaft entstanden und wird immer als kostenlose Open-Source-Version zur Verfügung stehen.
+❤️ Your Support Makes a Difference
 
-Die Entwicklung, Pflege und der Ausbau mit neuen Features kosten allerdings viel Zeit. Wenn du also einen Mehrwert aus dem Tool ziehst, ziehe bitte in Erwägung, das Projekt zu unterstützen. Dein Support fließt direkt in die Weiterentwicklung und beschleunigt auch die Arbeit an der geplanten Pro-Version.
+Thanks for using the AlienTec Recon-Tool! This is a passion project and will always be available as a free, open-source version.
 
-Ganz egal, wie du supportest – ob mit einem kleinen Beitrag oder einem Stern ⭐ für das Repository – ich danke dir für deinen Support, Bruder!
+However, its development, maintenance, and the addition of new features take a lot of time. If you find value in this tool, please consider supporting the project. Your support directly funds development and also accelerates the work on the planned Pro version.
 
-**[➡️ Werde jetzt zum Supporter via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
----
-## 🐉 Projektstatus
-Aktive Weiterentwicklung · an einer Pro‑Version · Community‑Friendly
+No matter how you support – with a small contribution or a star ⭐ for the repository – thank you for your support, bro!
+➡️ Become a Supporter now via GitHub Sponsors
+🐉 Project Status
 
----
+Active Development · Pro version in progress · Community-Friendly
+📜 License
 
-## 📜 License
 MIT License
