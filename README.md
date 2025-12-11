@@ -106,7 +106,7 @@ Optional Auto-Installer (to be integrated into the script later):
 ### External Web‑Pentest
 ```bash
 ./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster
-```
+``` 
 
 ### Internal Host‑Security‑Scan
 ```bash
