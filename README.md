@@ -1,5 +1,17 @@
 # AlienTec 👽 Recon-Tool
 
+
+---
+---
+### ❤️ Your Support Makes a Difference
+
+Thanks for using the AlienTec Recon-Tool! This is a passion project and will always be available as a free, open-source version.
+
+Your support helps accelerate the development of the planned Pro version and keeps this free tool maintained. If you find value in this project, please consider becoming a supporter!
+
+**[➡️ Become a Supporter now via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
+If you find this writeups also useful, consider sponsoring me: [GitHub Sponsors](https://github.com/sponsors/AlienTec1908)
+
 <h3>Do you like AlienTec Recon? Give the project a star ⭐ to support its development!</h3>
 
 [![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
@@ -145,15 +157,7 @@ Example:
 Logfile saved in logs/2025-12-04_23-51/
 ```
 
----
----
-### ❤️ Your Support Makes a Difference
 
-Thanks for using the AlienTec Recon-Tool! This is a passion project and will always be available as a free, open-source version.
-
-Your support helps accelerate the development of the planned Pro version and keeps this free tool maintained. If you find value in this project, please consider becoming a supporter!
-
-**[➡️ Become a Supporter now via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
 ---
 ---
 ## 🐉 Project Status
