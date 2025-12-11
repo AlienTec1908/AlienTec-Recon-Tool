@@ -141,7 +141,17 @@ Logfile saved in logs/2025-12-04_23-51/
 ```
 
 ---
+---
+### ❤️ Deine Unterstützung macht den Unterschied
 
+Schön, dass du das AlienTec Recon-Tool nutzt! Dieses Projekt ist aus Leidenschaft entstanden und wird immer als kostenlose Open-Source-Version zur Verfügung stehen.
+
+Die Entwicklung, Pflege und der Ausbau mit neuen Features kosten allerdings viel Zeit. Wenn du also einen Mehrwert aus dem Tool ziehst, ziehe bitte in Erwägung, das Projekt zu unterstützen. Dein Support fließt direkt in die Weiterentwicklung und beschleunigt auch die Arbeit an der geplanten Pro-Version.
+
+Ganz egal, wie du supportest – ob mit einem kleinen Beitrag oder einem Stern ⭐ für das Repository – ich danke dir für deinen Support, Bruder!
+
+**[➡️ Werde jetzt zum Supporter via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
+---
 ## 🐉 Projektstatus
 Aktive Weiterentwicklung · an einer Pro‑Version · Community‑Friendly
 
