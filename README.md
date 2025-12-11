@@ -16,7 +16,7 @@
 
 ## ⚡️ Übersicht
 
-**AlienTec Recon PRO** ist ein **automatisches Bash-Skript** zur Durchführung von grundlegenden bis erweiterten **Aufklärungs- und Informationssammlungs-Scans** auf einem Zielsystem. Es nutzt leistungsstarke Tools wie **Nmap**, **Gobuster** und **Nikto**, um offene Ports, HTTP-Header, Cookies und mögliche Schwachstellen zu identifizieren.
+**AlienTec Recon Tool** ist ein **automatisches Bash-Skript** zur Durchführung von grundlegenden bis erweiterten **Aufklärungs- und Informationssammlungs-Scans** auf einem Zielsystem. Es nutzt leistungsstarke Tools wie **Nmap**, **Gobuster** und **Nikto**, um offene Ports, HTTP-Header, Cookies und mögliche Schwachstellen zu identifizieren.
 
 Das Tool ist modular aufgebaut und bietet flexible Optionen, um genau die Scans durchzuführen, die Sie benötigen.
 
@@ -40,7 +40,7 @@ Das Skript kombiniert die Funktionen von Branchenstandards, um einen umfassenden
 
 ## 🚀 Installation & Voraussetzungen
 
-Um AlienTec Recon PRO auszuführen, benötigen Sie folgende Tools auf Ihrem System (idealerweise Kali Linux, Parrot OS oder eine andere Pentesting-Distribution):
+Um AlienTec Recon Tool auszuführen, benötigen Sie folgende Tools auf Ihrem System (idealerweise Kali Linux, Parrot OS oder eine andere Pentesting-Distribution):
 
 ```bash
 # Überprüfen Sie, ob Nmap, Gobuster und Nikto installiert sind
@@ -136,14 +136,14 @@ Beispiel:
 [+] Header Issues: 5 ✔
 [+] Cookie Issues: 1 ✔
 
-✔ AlienTec Recon PRO completed at 2025‑12‑04 23:51
+✔ AlienTec Recon Tool completed at 2025‑12‑04 23:51
 Logfile saved in logs/2025-12-04_23-51/
 ```
 
 ---
 
 ## 🐉 Projektstatus
-Aktive Weiterentwicklung · Pro‑Version · Community‑Friendly
+Aktive Weiterentwicklung · an einer Pro‑Version · Community‑Friendly
 
 ---
 
