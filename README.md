@@ -7,12 +7,12 @@ Thanks for using the AlienTec Recon-Tool! This is a passion project and will alw
 Your support helps accelerate the development of the planned Pro version and keeps this free tool maintained. If you find value in this project, please consider becoming a supporter!
 
 <div align="center">
-  ❤️ **Support AlienTec & Keep This Tool Free!** ❤️  
-  <br>
-  **[➡️ Become a Supporter via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
-
-<br>If you find this writeups also useful, consider sponsoring me: [GitHub Sponsors](https://github.com/sponsors/AlienTec1908)
+❤️ **Support AlienTec & Keep This Tool Free!** ❤️  
+[➡️ Become a Supporter via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)
 </div>
+
+If you find these writeups also useful, consider sponsoring me: [GitHub Sponsors](https://github.com/sponsors/AlienTec1908)
+
 
 ---
 
