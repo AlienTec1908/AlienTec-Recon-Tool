@@ -49,7 +49,8 @@ sudo apt install nmap gobuster nikto -y
 
 ---
 
-```markdown
+```
+
 A highly modular, professional reconnaissance toolkit for pentesters, red teamers, and security researchers.
 
 ## 🚀 Features
@@ -67,12 +68,11 @@ A highly modular, professional reconnaissance toolkit for pentesters, red teamer
 
 ## 📦 Installation
 ```bash
-chmod +x recon.sh
-```
+chmod +x recon.sh```
 
-Optionaler Auto‑Installer (wird später ins Skript eingebaut):
-- prüft ob notwendige Tools existieren
-- fragt **immer** vor Installation
+Optional Auto-Installer (to be integrated into the script later):
+- checks if necessary tools exist
+- **always asks** before  installation
 
 ---
 
@@ -81,38 +81,39 @@ Optionaler Auto‑Installer (wird später ins Skript eingebaut):
 ./recon.sh --ip 192.168.1.50 --domain example.com --all
 ```
 
-### 🏁 Parameter
-| Flag           | Beschreibung                                  |
+### 🏁 Parameters
+| Flag           | Description                                    |
 | -------------- | ---------------------------------------------- |
-| --ip           | Ziel‑IPv4 Adresse (required)                   |
-| --domain       | Ziel‑Domain (optional)                         |
-| --ipv6         | IPv6 Scan aktivieren                           |
+| --ip           | Target‑IPv4 address (required)                 |
+| --domain       | Target‑Domain (optional)                       |
+| --ipv6         | Enable IPv6 Scan                               |
 | --tcp          | Full TCP Scan                                  |
 | --udp          | UDP Scan                                       |
 | --headers      | HTTP Header Scan                               |
-| --cookies      | Cookie Dump                                     |
+| --cookies      | Cookie Dump                                    |
 | --gobuster     | Directory Bruteforce                           |
-| --nikto        | Webserver‑Scan (optional Modul)                |
-| --mode internal| Interner Pentest                               |
-| --mode external| Externer Pentest                               |
-| --skip-*       | Beliebige Module ausschließen                  |
-| --all          | Alle Module ausführen                          |
+| --nikto        | Web server scan (optional Modul)               |
+| --mode internal| Internal Pentest                               |
+| --mode external| External Pentest                               |
+| --skip-*       | Exclude any module                             |
+| --all          | Execute all modules                            |
 
 ---
 
-## 🔥 Beispielkommandos
+```markdown
+## 🔥 Example Commands
 
 ### Minimal
 ```bash
 ./recon.sh --ip 10.0.0.5
 ```
 
-### Externer Web‑Pentest
+### External Web‑Pentest
 ```bash
 ./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster
 ```
 
-### Interner Host‑Security‑Scan
+### Internal Host‑Security‑Scan
 ```bash
 ./recon.sh --ip 192.168.2.199 --tcp --udp --all
 ```
@@ -120,7 +121,7 @@ Optionaler Auto‑Installer (wird später ins Skript eingebaut):
 ---
 
 ## 📁 Logs
-Alle Scans werden automatisch gespeichert in:
+All scans are automatically saved in:
 
 ```
 logs/YYYY-MM-DD_HH-MM-SS/
@@ -128,8 +129,8 @@ logs/YYYY-MM-DD_HH-MM-SS/
 
 ---
 
-## 🏁 Abschluss‑Report (wird am Ende angezeigt)
-Beispiel:
+## 🏁 Final Report (displayed at the end)
+Example:
 
 ```
 [+] Nmap Web Scan Findings: 4 ✔
@@ -146,18 +147,17 @@ Logfile saved in logs/2025-12-04_23-51/
 
 ---
 ---
-### ❤️ Deine Unterstützung macht den Unterschied
+### ❤️ Your Support Makes a Difference
 
-Schön, dass du das AlienTec Recon-Tool nutzt! Dieses Projekt ist aus Leidenschaft entstanden und wird immer als kostenlose Open-Source-Version zur Verfügung stehen.
+Thanks for using the AlienTec Recon-Tool! This is a passion project and will always be available as a free, open-source version.
 
-Die Entwicklung, Pflege und der Ausbau mit neuen Features kosten allerdings viel Zeit. Wenn du also einen Mehrwert aus dem Tool ziehst, ziehe bitte in Erwägung, das Projekt zu unterstützen. Dein Support fließt direkt in die Weiterentwicklung und beschleunigt auch die Arbeit an der geplanten Pro-Version.
+Your support helps accelerate the development of the planned Pro version and keeps this free tool maintained. If you find value in this project, please consider becoming a supporter!
 
-Ganz egal, wie du supportest – ob mit einem kleinen Beitrag oder einem Stern ⭐ für das Repository – ich danke dir für deinen Support, Bruder!
-
-**[➡️ Werde jetzt zum Supporter via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
+**[➡️ Become a Supporter now via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
 ---
-## 🐉 Projektstatus
-Aktive Weiterentwicklung · an einer Pro‑Version · Community‑Friendly
+---
+## 🐉 Project Status
+Active Development · Pro version in progress · Community-Friendly
 
 ---
 
