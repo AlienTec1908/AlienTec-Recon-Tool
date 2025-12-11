@@ -1,1 +1,5 @@
-github: [AlienTec1908]
+github:
+  - $5
+  - $25
+  - $100
+  - $500
