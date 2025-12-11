@@ -38,15 +38,15 @@ The script combines the capabilities of industry-standard tools to provide a com
 
 ---
 
+```markdown
 ## 🚀 Prerequisites
 
 To run the AlienTec Recon Tool, you need the following tools on your system (ideally Kali Linux, Parrot OS, or another pentesting distribution):
 
 ```bash
-Check if Nmap, Gobuster, and Nikto are installed
-
+# Check if Nmap, Gobuster, and Nikto are installed
 sudo apt update
-sudo apt install nmap gobuster nikto -y ``` 
+sudo apt install nmap gobuster nikto -y
 
 A highly modular, professional reconnaissance toolkit for pentesters, red teamers, and security researchers.
 
