@@ -1,6 +1,7 @@
 # AlienTec 👽 Recon-Tool
-
+# 
 <h3>Do you like AlienTec Recon? Give the project a star ⭐ to support its development!</h3>
+
 
 [![GitHub stars](https://img.shields.io/github/stars/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/AlienTec1908/AlienTec-Recon-Tool?style=social)](https://github.com/AlienTec1908/AlienTec-Recon-Tool/network/members)
@@ -8,9 +9,10 @@
 ---
  
 <div align="center">
-  <img src="recontools.png" width="400" alt="ultimate Recon">
+  <img src="recontools.png" width="400" alt="ultimative Recon">
  
 </div>
+
 
 ## ⚡️ Overview
 
@@ -44,7 +46,6 @@ To run the AlienTec Recon Tool, you need the following tools on your system (ide
 # Check if Nmap, Gobuster, and Nikto are installed
 sudo apt update
 sudo apt install nmap gobuster nikto -y
- 
 A highly modular, professional reconnaissance toolkit for pentesters, red teamers, and security researchers.
 
 ## 🚀 Features
@@ -63,65 +64,71 @@ A highly modular, professional reconnaissance toolkit for pentesters, red teamer
 ## 📦 Installation
 ```bash
 chmod +x recon.sh
-
-  
+```
 
 Optional Auto-Installer (to be integrated into the script later):
+- checks if necessary tools exist
+- **always asks** before  installation
 
-    checks if necessary tools exist
+---
 
-    always asks before installation
-
-🧠 Usage
-  
+## 🧠 Usage
+```bash
 ./recon.sh --ip 192.168.1.50 --domain example.com --all
+```
 
-  
+### 🏁 Parameters
+| Flag | Description |
+| :--- | :--- |
+| `--ip` | Target IPv4 address (required) |
+| `--domain` | Target domain (optional) |
+| `--ipv6` | Enable IPv6 scan |
+| `--tcp` | Full TCP Scan |
+| `--udp` | UDP Scan |
+| `--headers` | HTTP Header Scan |
+| `--cookies` | Cookie Dump |
+| `--gobuster` | Directory Bruteforce |
+| `--nikto` | Web server scan (optional module) |
+| `--mode internal`| Internal Pentest |
+| `--mode external`| External Pentest |
+| `--skip-*` | Exclude any module |
+| `--all` | Execute all modules |
 
-🏁 Parameters
-Flag	Description
---ip	Target IPv4 address (required)
---domain	Target domain (optional)
---ipv6	Enable IPv6 scan
---tcp	Full TCP Scan
---udp	UDP Scan
---headers	HTTP Header Scan
---cookies	Cookie Dump
---gobuster	Directory Bruteforce
---nikto	Web server scan (optional module)
---mode internal	Internal Pentest
---mode external	External Pentest
---skip-*	Exclude any module
---all	Execute all modules
-🔥 Example Commands
-Minimal
- 
+---
+
+## 🔥 Example Commands
+
+### Minimal
+```bash
 ./recon.sh --ip 10.0.0.5
+```
 
-  
-
-External Web Pentest
-    
+### External Web‑Pentest
+```bash
 ./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster
+```
 
-  
-
-Internal Host Security Scan
-
+### Internal Host‑Security‑Scan
+```bash
 ./recon.sh --ip 192.168.2.199 --tcp --udp --all
+```
 
- 
+---
+
 ## 📁 Logs
 All scans are automatically saved in:
 
-```logs/YYYY-MM-DD_HH-MM-SS/
+```
+logs/YYYY-MM-DD_HH-MM-SS/
+```
 
-  
+---
 
-🏁 Final Report (displayed at the end)
+## 🏁 Final Report (displayed at the end)
 
 Example:
-   
+
+```
 [+] Nmap Web Scan Findings: 4 ✔
 [+] Nmap Vuln Scan Findings: 2 ✔
 [+] TCP Ports Open: 7 ✔
@@ -132,20 +139,24 @@ Example:
 
 ✔ AlienTec Recon Tool completed at 2025‑12‑04 23:51
 Logfile saved in logs/2025-12-04_23-51/
+```
 
-  
-
-❤️ Your Support Makes a Difference
+---
+ 
+### ❤️ Your Support Makes a Difference
 
 Thanks for using the AlienTec Recon-Tool! This is a passion project and will always be available as a free, open-source version.
 
 However, its development, maintenance, and the addition of new features take a lot of time. If you find value in this tool, please consider supporting the project. Your support directly funds development and also accelerates the work on the planned Pro version.
 
-No matter how you support – with a small contribution or a star ⭐ for the repository – thank you for your support, bro!
-➡️ Become a Supporter now via GitHub Sponsors
-🐉 Project Status
+No matter how you support – with a small contribution or a star ⭐ for the repository – thank you for your support!
 
+**[➡️ Become a Supporter now via GitHub Sponsors](https://github.com/sponsors/AlienTec1908)**
+---
+## 🐉 Project Status
 Active Development · Pro version in progress · Community-Friendly
-📜 License
 
+---
+
+## 📜 License
 MIT License
