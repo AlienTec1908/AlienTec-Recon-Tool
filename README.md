@@ -87,7 +87,9 @@ A highly modular, professional reconnaissance toolkit for pentesters, red teamer
 
 ## 📦 Installation
 ```bash
-chmod +x recon.sh```
+chmod +x recon.sh
+
+```
 
 Optional Auto-Installer (to be integrated into the script later):
 - checks if necessary tools exist
