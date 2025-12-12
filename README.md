@@ -121,7 +121,7 @@ Optional Auto-Installer (to be integrated into the script later):
 
 ---
 
-```markdown
+
 ## 🔥 Example Commands
 
 ### Minimal
