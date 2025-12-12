@@ -127,16 +127,19 @@ Optional Auto-Installer (to be integrated into the script later):
 ### Minimal
 ```bash
 ./recon.sh --ip 10.0.0.5
+
 ```
 
 ### External Web‑Pentest
 ```bash
 ./recon.sh --ip 8.8.8.8 --domain google.com --headers --cookies --gobuster
+
 ```
 
 ### Internal Host‑Security‑Scan
 ```bash
 ./recon.sh --ip 192.168.2.199 --tcp --udp --all
+
 ```
 
 ---
