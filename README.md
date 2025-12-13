@@ -4,16 +4,13 @@
 
 Thanks for using the AlienTec Recon-Tool! This is a passion project and will always be available as a free, open-source version.
 
-Your support helps accelerate the development of the planned Pro version and keeps this free tool maintained. Consider supporting in one of the following ways:
+Your support helps accelerate the development of the planned **Pro version** and keeps this free tool maintained. If you find value in this project, please consider becoming a supporter!
 
-1. **Become a Supporter via GitHub Sponsors**  
-   ❤️ [➡️ GitHub Sponsors](https://github.com/sponsors/AlienTec1908)
+| Via GitHub Sponsors | Via PayPal |
+| :--- | :--- |
+| **[➡️ Sponsor on GitHub](https://github.com/sponsors/AlienTec1908)** | **[➡️ Donate with PayPal](https://paypal.me/cyberben1908)** |
 
-2. **Support the writeups if you find them useful**  
-   ⭐ [GitHub Sponsors](https://github.com/sponsors/AlienTec1908)
-
-3. **Become an AlienTec Recon-Tool supporter**  
-   🛡️ Help ensure the Pro version is developed and keep this free tool maintained
+---
 
 
 
