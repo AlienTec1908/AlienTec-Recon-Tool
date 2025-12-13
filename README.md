@@ -6,7 +6,7 @@ Thanks for using the AlienTec Recon-Tool! This is a passion project and will alw
 
 Your support helps accelerate the development of the planned **Pro version** and keeps this free tool maintained. If you find value in this project, please consider becoming a supporter!
 
-| Via GitHub Sponsors | Via PayPal |
+| Via GitHub Sponsors |
 | :--- | :--- |
 | **[➡️ Sponsor on GitHub](https://github.com/sponsors/AlienTec1908)** |
 
