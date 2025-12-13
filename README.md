@@ -8,7 +8,7 @@ Your support helps accelerate the development of the planned **Pro version** and
 
 | Via GitHub Sponsors | Via PayPal |
 | :--- | :--- |
-| **[➡️ Sponsor on GitHub](https://github.com/sponsors/AlienTec1908)** | **[➡️ Donate with PayPal](https://paypal.me/cyberben1908)** |
+| **[➡️ Sponsor on GitHub](https://github.com/sponsors/AlienTec1908)** |
 
 ---
 
